@@ -20,6 +20,7 @@
     "utility": "c",
     "string": "c",
     "string_view": "c",
-    "test.h": "c"
+    "test.h": "c",
+    "net.h": "c"
   }
 }
