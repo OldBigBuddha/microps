@@ -6,6 +6,7 @@
 #include "platform.h"
 
 #include "util.h"
+#include "net.h"
 
 struct irq_entry
 {
@@ -93,6 +94,9 @@ intr_thread(void *arg)
         case SIGHUP:
             terminate = 1;
             break;
+        case SIGUSR1:
+            net_softirq_handler();
+            break;
         default:
             for (entry = irqs; entry; entry = entry->next)
             {
@@ -154,6 +158,7 @@ int intr_init(void)
 
     sigemptyset(&sigmask);
     sigaddset(&sigmask, SIGHUP);
+    sigaddset(&sigmask, INTR_IRQ_SOFTIRQ);
 
     return 0;
 }
