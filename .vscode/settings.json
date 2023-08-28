@@ -20,11 +20,13 @@
     "utility": "c",
     "string": "c",
     "string_view": "c",
+    "sys/time.h": "c",
     "test.h": "c",
     "net.h": "c",
     "ether_tap.h": "c",
     "arp.h": "c",
     "platform.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "time.h": "c"
   }
 }
