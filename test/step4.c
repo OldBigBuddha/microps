@@ -18,27 +18,31 @@ on_signal(int s)
     terminate = 1;
 }
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     struct net_device *dev;
 
     signal(SIGINT, on_signal);
-    if (net_init() == -1) {
+    if (net_init() == -1)
+    {
         errorf("net_init() failure");
         return -1;
     }
     dev = loopback_init();
-    if (!dev) {
+    if (!dev)
+    {
         errorf("loopback_init() failure");
         return -1;
     }
-    if (net_run() == -1) {
+    if (net_run() == -1)
+    {
         errorf("net_run() failure");
         return -1;
     }
-    while (!terminate) {
-        if (net_device_output(dev, NET_PROTOCOL_TYPE_IP, test_data, sizeof(test_data), NULL) == -1) {
+    while (!terminate)
+    {
+        if (net_device_output(dev, NET_PROTOCOL_TYPE_IP, test_data, sizeof(test_data), NULL) == -1)
+        {
             errorf("net_device_output() failure");
             break;
         }

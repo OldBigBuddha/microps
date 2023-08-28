@@ -23,6 +23,8 @@
     "test.h": "c",
     "net.h": "c",
     "ether_tap.h": "c",
-    "platform.h": "c"
+    "arp.h": "c",
+    "platform.h": "c",
+    "string.h": "c"
   }
 }
