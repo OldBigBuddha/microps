@@ -105,24 +105,22 @@ udp_output(struct ip_endpoint *src, struct ip_endpoint *dst, const uint8_t *data
 
     // Exercise 18-1: UDPデータグラムの生成
     // ・チェックサムの計算には疑似ヘッダを含めること
+    hdr->src = src->port;
+    hdr->dst = dst->port;
+    total = len + sizeof(*hdr);
+    hdr->len = hton16(total);
+    hdr->sum = 0;
+    memcpy(hdr + 1, data, len);
+
     pseudo.src = src->addr;
     pseudo.dst = dst->addr;
     pseudo.zero = 0;
     pseudo.protocol = IP_PROTOCOL_UDP;
-    pseudo.len = hton16(len);
+    pseudo.len = hton16(total);
     psum = ~cksum16((uint16_t *)&pseudo, sizeof(pseudo), 0);
 
-    hdr->src = src->port;
-    hdr->dst = dst->port;
-    hdr->len = hton16(len);
+    hdr->sum = cksum16((uint16_t *)hdr, len, psum);
 
-    if (cksum16((uint16_t *)hdr, len, psum) != 0)
-    {
-        errorf("checksum error: sum=0x%04x, verify=0x%04x", ntoh16(hdr->sum), ntoh16(cksum16((uint16_t *)hdr, len, -hdr->sum + psum)));
-        return -1;
-    }
-
-    total = len;
     debugf("%s => %s, len=%zu (payload=%zu)",
            ip_endpoint_ntop(src, ep1, sizeof(ep1)), ip_endpoint_ntop(dst, ep2, sizeof(ep2)), total, len);
     udp_dump((uint8_t *)hdr, total);

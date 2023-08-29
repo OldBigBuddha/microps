@@ -290,7 +290,7 @@ int ip_iface_register(struct net_device *dev, struct ip_iface *iface)
     }
 
     // Exercise 17-1: インタフェース登録時にそのネットワーク宛の経路情報を自動で登録する
-    if (!ip_route_add(iface->unicast, iface->netmask, IP_ADDR_ANY, iface))
+    if (!ip_route_add(iface->unicast & iface->netmask, iface->netmask, IP_ADDR_ANY, iface))
     {
         errorf("ip_route_add() failure");
         return -1;

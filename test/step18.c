@@ -100,10 +100,8 @@ int main(int argc, char *argv[])
         errorf("setup() failure");
         return -1;
     }
-
     ip_endpoint_pton("127.0.0.1:10000", &src);
     ip_endpoint_pton("127.0.0.1:7", &dst);
-
     while (!terminate)
     {
         if (udp_output(&src, &dst, test_data + offset, sizeof(test_data) - offset) == -1)
@@ -113,8 +111,6 @@ int main(int argc, char *argv[])
         }
         sleep(1);
     }
-
     cleanup();
-
     return 0;
 }
